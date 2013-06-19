@@ -1,5 +1,5 @@
 # EyeToSee
-AVR library for I2C / TWI  master communication. this library allows you to create a EyeToSee class that encapsulates all the register stuff and has built in timeouts to stop your program from getting stuck if a peripheral is broken or non-existant. draws a lot of inspiration from [Peter Fleury's i2cmaster library](http://homepage.hispeed.ch/peterfleury/avr-software.html).
+AVR library for I2C / TWI  master communication. this library allows you to create a EyeToSee object that encapsulates all the register stuff so you just have to `read` or `write`. class methods have built in timeouts to stop your program from getting stuck if a peripheral is broken or non-existant and return their success or failure. draws a lot of inspiration from [Peter Fleury's i2cmaster library](http://homepage.hispeed.ch/peterfleury/avr-software.html).
 
 ## current functionality
 * read a single peripheral register
@@ -39,7 +39,7 @@ int main (void) {
     // read a single register
     success = bus.read(SL_ADDR, SL_SETTING_REG, &c);
     if ( !success ) {
-        slaveReadSettingsTimeoutError();
+        slaveReadSettingsError();
         return 0;
     }
     // write to a single register
@@ -60,7 +60,7 @@ int main (void) {
             _delay_ms(10);
         }
         else {
-            slaveReadTimeoutError();
+            slaveReadDataError();
             return 0;
         }
     }
