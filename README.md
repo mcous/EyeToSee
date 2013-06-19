@@ -22,7 +22,7 @@ AVR library for I2C / TWI  master communication. this library allows you to crea
 // i2c addresses of the registers
 #define SL_READING_REG 0x02
 #define SL_SETTING_REG 0x03
-// number of readings expeted from slave
+// number of readings expected from slave
 #define NUM_READ 3
 
 int main (void) {
@@ -33,7 +33,7 @@ int main (void) {
     unsigned char readings[NUM_READ];
 
     // setup peripheral
-    // read and write functions are bools that will return true if successful, false if not
+    // read and write methods are bools that will return true if successful
     unsigned char c;
     bool success;
     // read a single register
