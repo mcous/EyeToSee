@@ -1,0 +1,8 @@
+# keywords.txt for arduino ide highlighting
+
+# KEYWORD1 - classes, datatypes, and c++ keywords
+EyeToSee    KEYWORD1
+
+# KEYWORD2 - methods and functions
+read       KEYWORD2
+write      KEYWORD2
