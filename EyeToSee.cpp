@@ -1,15 +1,21 @@
-// AVR I2C library
-// Michael Cousins - 2013
+// EyeToSee
+// I2C/TWI library for AVR microcontrollers
+// http://github.com/mcous/EyeToSee
+//
+// copyright 2013 michael cousins and authors listed in http://github.com/mcous/EyeToSee/AUTHORS.md
+// shared under the terms of the mit licence
 
+// EyeToSee class source file
+
+#include <avr/io.h>
 #include <util/twi.h>
+#include "EyeToSee.h"
 
-#include "EyeSquaredSee.h"
-
-EyeSquaredSee::EyeSquaredSee() {
+EyeToSee::EyeToSee() {
 	init();
 }
 
-void EyeSquaredSee::init() {
+void EyeToSee::init() {
 	// No prescaler
 	TWSR = 0;
 	// Set frequency
@@ -17,11 +23,11 @@ void EyeSquaredSee::init() {
 }
 
 // Overloaded read method; if no number of bytes given, assume 1
-bool EyeSquaredSee::read(uint8_t addr, uint8_t reg, uint8_t* dest) {
+bool EyeToSee::read(uint8_t addr, uint8_t reg, uint8_t* dest) {
 	return read(addr, reg, 1, dest);
 }
 
-bool EyeSquaredSee::read(uint8_t addr, uint8_t reg, uint8_t n, uint8_t* dest) {
+bool EyeToSee::read(uint8_t addr, uint8_t reg, uint8_t n, uint8_t* dest) {
 	// Issue start with a write command
 	if (start(addr, TW_WRITE, true)) {
 
@@ -58,7 +64,7 @@ bool EyeSquaredSee::read(uint8_t addr, uint8_t reg, uint8_t n, uint8_t* dest) {
 	return false;
 }
 
-bool EyeSquaredSee::write(uint8_t addr, uint8_t reg, uint8_t d) {
+bool EyeToSee::write(uint8_t addr, uint8_t reg, uint8_t d) {
 	// Issue start with a write command
 	if (start(addr, TW_WRITE, false)) {
 		// Send the desired register to write to
@@ -79,7 +85,7 @@ bool EyeSquaredSee::write(uint8_t addr, uint8_t reg, uint8_t d) {
 }
 
 // Start (or repeated start) a transmission to a slave at addr with a read or write command
-bool EyeSquaredSee::start(uint8_t addr, uint8_t rw, bool w) {
+bool EyeToSee::start(uint8_t addr, uint8_t rw, bool w) {
 	bool waiting = w;
 	uint16_t timer = 0;
 
@@ -111,12 +117,12 @@ bool EyeSquaredSee::start(uint8_t addr, uint8_t rw, bool w) {
 	return false;
 }
 
-bool EyeSquaredSee::stop() {
+bool EyeToSee::stop() {
 	TWCR = ( (1 << TWINT) | (1 << TWSTO) | (1 << TWEN) );
 	return waitTWCR(TWSTO, 0);
 }
 
-bool EyeSquaredSee::writeData(uint8_t d) {
+bool EyeToSee::writeData(uint8_t d) {
 	// Load data into data register
 	TWDR = d;
 	// Initiate the transmission
@@ -132,7 +138,7 @@ bool EyeSquaredSee::writeData(uint8_t d) {
 	return false;
 }
 
-uint8_t EyeSquaredSee::readData(bool ack) {
+uint8_t EyeToSee::readData(bool ack) {
 	// Start transmission and send an ACK if necessary
 	if (ack) {
 		//Serial.println("Initiating read with ACK");
@@ -154,7 +160,7 @@ uint8_t EyeSquaredSee::readData(bool ack) {
 	return 0;
 }
 
-bool EyeSquaredSee::waitTWCR(uint8_t bit, uint8_t val) {
+bool EyeToSee::waitTWCR(uint8_t bit, uint8_t val) {
 	uint16_t timer = 0;
 	// Wait for flag to equal value or for the timer to timeout
 	while( ((TWCR & (1<<bit)) != (val<<bit)) && (++timer < TIMEOUT) );
@@ -167,6 +173,6 @@ bool EyeSquaredSee::waitTWCR(uint8_t bit, uint8_t val) {
 }
 
 // Disable I2C by writing 0 to the control register
-void EyeSquaredSee::disable() {
+void EyeToSee::disable() {
 	TWCR = 0;
 }
