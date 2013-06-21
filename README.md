@@ -7,7 +7,7 @@ AVR library for I2C / TWI  master communication. this library allows you to crea
 * write to a single peripheral register
 
 ## wishlist
-* write to multiple registers with repeated start
+* write to multiple registers
 * more granular error reporting (at what step of the transmission did it fail?)
 * method to change I2C settings
 * allow the AVR to act as a I2C slave
