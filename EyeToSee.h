@@ -11,7 +11,7 @@
 #define EYE_TO_SEE_H
 
 // include for avr typedefs
-#include <avr/io.h>
+#include <stdint.h>
 
 // timeout and speed variables
 #define TIMEOUT 200
@@ -39,7 +39,7 @@ class EyeToSee {
 		// Send a start command to address with read or write command and whether or not to wait for device ready
 		bool start(uint8_t addr, uint8_t rw, bool wait);
 		// Read a register of a previously activated address and ack or nack
-		unsigned char readData(bool ack);
+		uint8_t readData(bool ack);
 		// Write to a register of a previously activated address
 		bool writeData(uint8_t reg);
 		// Issue a stop command and free the bus
