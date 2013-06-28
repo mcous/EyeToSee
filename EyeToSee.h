@@ -10,6 +10,9 @@
 #ifndef EYE_TO_SEE_H
 #define EYE_TO_SEE_H
 
+// include for avr typedefs
+#include <avr/io.h>
+
 // timeout and speed variables
 #define TIMEOUT 200
 #define F_SCL 100000
