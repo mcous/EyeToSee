@@ -30,21 +30,16 @@ bool EyeToSee::read(uint8_t addr, uint8_t reg, uint8_t* dest) {
 bool EyeToSee::read(uint8_t addr, uint8_t reg, uint8_t n, uint8_t* dest) {
 	// Issue start with a write command
 	if (start(addr, TW_WRITE, true)) {
-
 		// Write the desired register
 		if (writeData(reg)) {
-
 			// Issue a repeated start with a read command
 			if (start(addr, TW_READ, false)) {
-
 				// Read out the data until n have been read, then NACK
 				for (uint8_t i=0; i<n; i++) {
 					dest[i] = readData(i != (n-1));
 				}
-
 				// Stop transmission
 				if (stop()) {
-	        		//Serial.println("Stop successful");
 	        		return true;
 	        	}
 	        	else {
@@ -54,7 +49,6 @@ bool EyeToSee::read(uint8_t addr, uint8_t reg, uint8_t n, uint8_t* dest) {
 			}
 		}
 	}
-
 	// If the program gets here, something has gone wrong. Fill dest with 0s and return false
 	stop();
 	disable();
@@ -141,11 +135,9 @@ bool EyeToSee::writeData(uint8_t d) {
 uint8_t EyeToSee::readData(bool ack) {
 	// Start transmission and send an ACK if necessary
 	if (ack) {
-		//Serial.println("Initiating read with ACK");
 		TWCR = ( (1 << TWINT) | (1 << TWEN) | (1 << TWEA) );
 	}
 	else {
-		//Serial.println("Initiating read with NACK");
 		TWCR = ( (1 << TWINT) | (1 << TWEN) );
 	}
 	// Wait for transmission to complete
